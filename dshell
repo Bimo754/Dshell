@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Check if port argument is provided
+if [ "$1" != "-p" ] || [ -z "$2" ]; then
+    echo "Usage: $0 -p <PORT>"
+    exit 1
+fi
+
+# Extract the port number
+port="$2"
+
+# Set terminal to raw mode without echoing
+stty raw -echo
+
+# Get terminal size
+terminal_size=$(stty size)
+
+# Construct the command with the specified port
+command="rcat l -ie \"script -qc /bin/bash /dev/null\" $port"
+
+# Execute the command
+eval $command
+
+# Reset terminal to normal mode
+reset
