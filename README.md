@@ -4,4 +4,4 @@ Dshell is a reverse shell script that will prepare a responsive shell on a certa
 
 chmod +x dshell
 
-dshell -p <PORT>
+dshell -p PORT
