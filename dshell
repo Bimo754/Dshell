@@ -1,8 +1,34 @@
 #!/bin/bash
 
-# Check if port argument is provided
+# Color codes
+PURPLE="\033[35m"
+GREEN="\033[32m"
+RED="\033[31m"
+RESET="\033[0m"
+
+# Function to kill rcat processes
+kill_rcat() {
+    pids=$(pgrep -f '^rcat')
+    if [ -z "$pids" ]; then
+        echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} No dshell process found."
+        return
+    fi
+
+    for pid in $pids; do
+        pname=$(ps -p $pid -o comm=)
+        echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Killing dshell"
+        kill -9 $pid
+    done
+}
+
+# Check arguments
+if [ "$1" == "-k" ]; then
+    kill_rcat
+    exit 0
+fi
+
 if [ "$1" != "-p" ] || [ -z "$2" ]; then
-    echo "Usage: $0 -p <PORT>"
+    echo "Usage: $0 -p <PORT> or $0 -k"
     exit 1
 fi
 
