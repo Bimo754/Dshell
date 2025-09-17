@@ -6,46 +6,123 @@ GREEN="\033[32m"
 RED="\033[31m"
 RESET="\033[0m"
 
-# Function to kill rcat processes
+usage() {
+    echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Usage:"
+    echo -e "       $0 -p <PORT>"
+    echo -e "       $0 -k <PORT|all>"
+    exit 1
+}
+
+# Ensure terminal is sane on exit (in case of ctrl-c)
+cleanup() {
+    stty sane
+    reset >/dev/null 2>&1 || true
+}
+trap cleanup EXIT
+
+# Function to kill dshell processes
+# arg1: "all" or port number
 kill_rcat() {
-    pids=$(pgrep -f '^rcat')
+    target="$1"
+
+    if [ -z "$target" ]; then
+        echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} No argument for -k. Use a port number or 'all'."
+        usage
+    fi
+
+    if [ "$target" = "all" ]; then
+
+        # find all rcat processes
+        pids=$(ps -eo pid,cmd | grep '[r]cat' | awk '{print $1}')
+        if [ -z "$pids" ]; then
+            echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} No dshell processes found."
+            return
+        fi
+
+        for pid in $pids; do
+            # try to extract port (assume last token is the port)
+            cmdline=$(ps -p "$pid" -o args=)
+            port=$(echo "$cmdline" | awk '{print $NF}')
+            if [[ "$port" =~ ^[0-9]+$ ]]; then
+                echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Killing dshell port ${port}"
+            else
+                # fallback to showing unknown port if no numeric port found
+                echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Killing dshell port (unknown)"
+            fi
+            kill -9 "$pid" 2>/dev/null || echo -e "${PURPLE}[${RED}Error${PURPLE}]${RESET} Failed to kill PID $pid"
+        done
+        return
+    fi
+
+    # Otherwise treat target as a port number — match processes whose command line contains that port
+    # Use word-boundary-ish matching: grep -w "$target" so it doesn't match partial numbers
+    pids=$(ps -eo pid,cmd | grep '[r]cat' | grep -w -- "$target" | awk '{print $1}')
     if [ -z "$pids" ]; then
-        echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} No dshell process found."
+        echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} No dshell process found for port ${target}."
         return
     fi
 
     for pid in $pids; do
-        pname=$(ps -p $pid -o comm=)
-        echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Killing dshell"
-        kill -9 $pid
+        echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Killing dshell port ${target}"
+        kill -9 "$pid" 2>/dev/null || echo -e "${PURPLE}[${RED}Error${PURPLE}]${RESET} Failed to kill PID $pid"
     done
 }
 
-# Check arguments
-if [ "$1" == "-k" ]; then
-    kill_rcat
-    exit 0
+# Check if a port is already used by an rcat/dshell process
+# arg1: port number
+port_in_use() {
+    port="$1"
+    # match rcat processes that have the port as a separate token
+    existing=$(ps -eo pid,cmd | grep '[r]cat' | grep -w -- "$port")
+    if [ -n "$existing" ]; then
+        return 0
+    fi
+    return 1
+}
+
+# MAIN
+if [ $# -lt 1 ]; then
+    usage
 fi
 
-if [ "$1" != "-p" ] || [ -z "$2" ]; then
-    echo "Usage: $0 -p <PORT> or $0 -k"
-    exit 1
-fi
+case "$1" in
+    -k)
+        # Require a second argument (port or 'all')
+        if [ -z "$2" ]; then
+            echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} -k requires an argument: a port number or 'all'."
+            usage
+        fi
+        kill_rcat "$2"
+        exit 0
+        ;;
+    -p)
+        if [ -z "$2" ]; then
+            echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} -p requires a port number."
+            usage
+        fi
+        port="$2"
 
-# Extract the port number
-port="$2"
+        # Check if port is already used by an rcat/dshell process
+        if port_in_use "$port"; then
+            echo -e "${PURPLE}[${RED}Warning${PURPLE}]${RESET} dshell already running on port ${port}. Aborting."
+            exit 1
+        fi
 
-# Set terminal to raw mode without echoing
-stty raw -echo
+        # Set terminal to raw mode without echoing
+        stty raw -echo
 
-# Get terminal size
-terminal_size=$(stty size)
+        # Get terminal size (kept from your original; not used directly but preserved)
+        terminal_size=$(stty size)
 
-# Construct the command with the specified port
-command="rcat l -ie \"script -qc /bin/bash /dev/null\" $port"
+        # Construct and run the command
+        command="rcat l -ie \"script -qc /bin/bash /dev/null\" $port"
+        eval $command
 
-# Execute the command
-eval $command
-
-# Reset terminal to normal mode
-reset
+        # Reset terminal to normal mode (trap will also handle this)
+        reset
+        exit 0
+        ;;
+    *)
+        usage
+        ;;
+esac
