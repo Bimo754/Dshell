@@ -1,16 +1,10 @@
 ## Dshell
 
-
-
 > "A reverse shell shows that true control comes when the target reaches back willingly."
-
-
 
 **Dshell** is a reverse shell script that prepares a responsive shell on a specified port using [rustcat](https://github.com/robiot/rustcat).
 
-
 ---
-
 
 ### Features
 
@@ -18,17 +12,13 @@
 * Kill running Dshell processes on demand.
 * Supports multiple network interfaces by default.
 
-
 ---
-
 
 ### Installation
 
 Ensure [rustcat](https://github.com/robiot/rustcat) is installed on your system.
 
-
 ---
-
 
 ### Usage
 
@@ -42,9 +32,7 @@ dshell -h
     /usr/local/bin/dshell -k <PORT|all>
 ```
 
-
 ---
-
 
 #### Run a Listener
 
@@ -61,9 +49,7 @@ If no interface or IP is supplied, Dshell will try the following interfaces in o
 * `eth0`
 * `lo`
 
-
 ---
-
 
 #### Kill Running Processes
 
@@ -74,9 +60,7 @@ dshell -k <PORT|all>
 * `<PORT>` 		– Kill Dshell process running on a specific port.
 * `all` 		– Kill all Dshell processes.
 
-
 ---
-
 
 #### Examples
 
