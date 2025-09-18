@@ -64,25 +64,25 @@ dshell -k <PORT|all>
 
 #### Examples
 
-Start a listener on port `4444` using tun0 interface:
+Start a listener on port `4444` using `tun0` interface:
 
 ```sh
 dshell -p 4444 tun0
 ```
 
-Start a listener on port `4444` using the IP 1.1.1.1:
+Start a listener on port `4444` using the IP `1.1.1.1`:
 
 ```sh
 dshell -p 4444 1.1.1.1
 ```
 
-Kill all running Dshell processes:
+Kill `all` running Dshell processes:
 
 ```sh
 dshell -k all
 ```
 
-Kill Dshell processe that is listening on port 4444:
+Kill Dshell processe that is listening on port `4444`:
 
 ```sh
 dshell -k 4444
