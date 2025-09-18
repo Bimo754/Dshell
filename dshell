@@ -9,9 +9,10 @@ YELLOW_BOLD="\033[1m\033[33m"
 RESET="\033[0m"
 
 usage() {
+    echo ""
     echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Usage:"
-    echo -e "        $0 -p <PORT> [IFACE|IP]"
-    echo -e "        $0 -k <PORT|all>"
+    echo -e "        dshell -p <PORT> [IFACE|IP]"
+    echo -e "        dshell -k <PORT|all>"
     exit 1
 }
 
