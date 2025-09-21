@@ -13,13 +13,14 @@ usage() {
     echo ""
     echo -e "Usage:" >&2
     echo ""
-    echo -e "  dshell [options] [IFACE|IP]" >&2
+    echo -e "  dshell [options]" >&2
     echo ""
     echo -e "Options:" >&2
     echo -e "  -p <PORT>        Port number to listen on." >&2
+    echo -e "     [IFACE|IP]    Optional network interface or IP address to bind to." >&2
+    echo ""
     echo -e "  -k <PORT|all>    Kill dshell process on PORT or all running processes." >&2
     echo ""
-    echo -e "  [IFACE|IP]       Optional network interface or IP address to bind to." >&2
     echo ""
     echo -e "Examples:" >&2
     echo -e "  dshell -p 4444" >&2
