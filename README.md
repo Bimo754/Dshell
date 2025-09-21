@@ -39,8 +39,15 @@ dshell -h
 ```
 **Usage**
 ```sh
-dshell -p <PORT> [IFACE|IP]
-dshell -k <PORT|all>
+Usage:
+
+  dshell [options] [IFACE|IP]
+
+Options:
+  -p <PORT>        Port number to listen on.
+  -k <PORT|all>    Kill dshell process on PORT or all running processes.
+
+  [IFACE|IP]       Optional network interface or IP address to bind to.
 ```
 
 ## Run a Listener
