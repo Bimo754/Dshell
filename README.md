@@ -17,7 +17,7 @@ Dshell is a tiny reverse-shell helper that spins up a responsive listener and au
 # 🛠️ Installation
 
 1. Ensure [rustcat](https://github.com/robiot/rustcat) is installed on your system.
-2.
+2. Clone the repository and run the installer
 ```sh
 git clone https://github.com/Bimo754/Dshell
 cd Dshell
