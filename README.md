@@ -22,7 +22,7 @@ Dshell is a tiny reverse-shell helper that spins up a responsive listener and au
 git clone https://github.com/Bimo754/Dshell
 cd Dshell
 chmod +x install.sh
-./install.sh
+sudo ./install.sh
 ```
 
 <br>
