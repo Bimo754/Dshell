@@ -8,13 +8,28 @@ LIGHTER_BLUE="\033[1;38;5;117m"
 YELLOW_BOLD="\033[1m\033[33m"
 RESET="\033[0m"
 
+# Function to display script usage
 usage() {
     echo ""
-    echo -e "${PURPLE}[${GREEN}Info${PURPLE}]${RESET} Usage:"
-    echo -e "        dshell -p <PORT> [IFACE|IP]"
-    echo -e "        dshell -k <PORT|all>"
+    echo -e "Usage:" >&2
+    echo ""
+    echo -e "  dshell [options] [IFACE|IP]" >&2
+    echo ""
+    echo -e "Options:" >&2
+    echo -e "  -p <PORT>        Port number to listen on." >&2
+    echo -e "  -k <PORT|all>    Kill dshell process on PORT or all running processes." >&2
+    echo ""
+    echo -e "  [IFACE|IP]       Optional network interface or IP address to bind to." >&2
+    echo ""
+    echo -e "Examples:" >&2
+    echo -e "  dshell -p 4444" >&2
+    echo -e "  dshell -p 4444 wlan0" >&2
+    echo -e "  dshell -p 4444 192.168.1.10" >&2
+    echo -e "  dshell -k 4444" >&2
+    echo -e "  dshell -k all" >&2
     exit 1
 }
+
 
 cleanup() {
     stty sane
